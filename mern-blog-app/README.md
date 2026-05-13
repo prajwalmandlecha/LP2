@@ -79,9 +79,13 @@ The expected versions are `v24.15.0` for Node.js and `11.12.1` for npm.
    MONGO_URI=mongodb://127.0.0.1:27017/blog-db
    ```
 4. Start the server:
+
    ```bash
    npm start
+
+   NODE_ENV=production npm start
    ```
+
    The backend should now be running on `http://localhost:5000`.
 
 ### 4. Frontend Setup
