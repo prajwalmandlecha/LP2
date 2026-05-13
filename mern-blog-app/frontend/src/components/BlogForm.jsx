@@ -1,15 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 
-const BlogForm = ({ currentBlog, onSave }) => {
-    const [blog, setBlog] = useState({ title: '', author: '', content: '' });
-    const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000/api/blogs';
+const emptyBlog = { title: '', author: '', content: '' };
 
-    useEffect(() => {
-        if (currentBlog) {
-            setBlog(currentBlog);
-        }
-    }, [currentBlog]);
+const BlogForm = ({ currentBlog, onSave }) => {
+    const [blog, setBlog] = useState(currentBlog || emptyBlog);
+    const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000/api/blogs';
 
     const handleChange = (e) => {
         setBlog({ ...blog, [e.target.name]: e.target.value });
@@ -31,42 +27,56 @@ const BlogForm = ({ currentBlog, onSave }) => {
     };
 
     return (
-        <div className="blog-form">
-            <h2>{currentBlog ? 'Edit Blog' : 'Add New Blog'}</h2>
+        <section className="blog-form">
+            <div className="page-heading">
+                <p className="eyebrow">{currentBlog ? 'Revise draft' : 'New story'}</p>
+                <h2>{currentBlog ? 'Edit Blog' : 'Add New Blog'}</h2>
+                <p className="section-copy">
+                    Keep the title sharp, credit the author, and write the post body below.
+                </p>
+            </div>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label>Title</label>
+                    <label htmlFor="title">Title</label>
                     <input
+                        id="title"
                         type="text"
                         name="title"
                         value={blog.title}
                         onChange={handleChange}
+                        placeholder="A practical guide to..."
                         required
                     />
                 </div>
                 <div className="form-group">
-                    <label>Author</label>
+                    <label htmlFor="author">Author</label>
                     <input
+                        id="author"
                         type="text"
                         name="author"
                         value={blog.author}
                         onChange={handleChange}
+                        placeholder="Author name"
                         required
                     />
                 </div>
                 <div className="form-group">
-                    <label>Content</label>
+                    <label htmlFor="content">Content</label>
                     <textarea
+                        id="content"
                         name="content"
                         value={blog.content}
                         onChange={handleChange}
+                        placeholder="Write the complete blog post here..."
                         required
                     ></textarea>
                 </div>
-                <button type="submit">{currentBlog ? 'Update' : 'Submit'}</button>
-                <button type="button" className="btn-cancel" onClick={onSave}>Cancel</button>
+                <div className="form-actions">
+                    <button type="submit" className="btn-primary">{currentBlog ? 'Update Blog' : 'Publish Blog'}</button>
+                    <button type="button" className="btn-cancel" onClick={onSave}>Cancel</button>
+                </div>
             </form>
-        </div>
+        </section>
     );
 };
 

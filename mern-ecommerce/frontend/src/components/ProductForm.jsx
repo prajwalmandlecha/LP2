@@ -1,15 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 
-const ProductForm = ({ currentProduct, onSave }) => {
-    const [product, setProduct] = useState({ name: '', price: '', category: '', description: '', stock: '' });
-    const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000/api/products';
+const emptyProduct = { name: '', price: '', category: '', description: '', stock: '' };
 
-    useEffect(() => {
-        if (currentProduct) {
-            setProduct(currentProduct);
-        }
-    }, [currentProduct]);
+const ProductForm = ({ currentProduct, onSave }) => {
+    const [product, setProduct] = useState(currentProduct || emptyProduct);
+    const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000/api/products';
 
     const handleChange = (e) => {
         setProduct({ ...product, [e.target.name]: e.target.value });
@@ -31,63 +27,80 @@ const ProductForm = ({ currentProduct, onSave }) => {
     };
 
     return (
-        <div className="product-form">
-            <h2>{currentProduct ? 'Edit Product' : 'Add New Product'}</h2>
+        <section className="form-view">
+            <div className="page-heading">
+                <p className="eyebrow">{currentProduct ? 'Inventory update' : 'New item'}</p>
+                <h2>{currentProduct ? 'Edit Product' : 'Add Product'}</h2>
+                <p className="section-copy">Keep product details consistent before they reach the catalog.</p>
+            </div>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label>Product Name</label>
+                    <label htmlFor="name">Product Name</label>
                     <input
+                        id="name"
                         type="text"
                         name="name"
                         value={product.name}
                         onChange={handleChange}
+                        placeholder="Wireless keyboard"
                         required
                     />
                 </div>
                 <div className="form-group">
-                    <label>Category</label>
+                    <label htmlFor="category">Category</label>
                     <input
+                        id="category"
                         type="text"
                         name="category"
                         value={product.category}
                         onChange={handleChange}
+                        placeholder="Accessories"
                         required
                     />
                 </div>
-                <div className="form-group">
-                    <label>Price ($)</label>
-                    <input
-                        type="number"
-                        name="price"
-                        value={product.price}
-                        onChange={handleChange}
-                        required
-                    />
+                <div className="form-row">
+                    <div className="form-group">
+                        <label htmlFor="price">Price</label>
+                        <input
+                            id="price"
+                            type="number"
+                            name="price"
+                            value={product.price}
+                            onChange={handleChange}
+                            placeholder="49"
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="stock">Stock Quantity</label>
+                        <input
+                            id="stock"
+                            type="number"
+                            name="stock"
+                            value={product.stock}
+                            onChange={handleChange}
+                            placeholder="120"
+                            required
+                        />
+                    </div>
                 </div>
                 <div className="form-group">
-                    <label>Stock Quantity</label>
-                    <input
-                        type="number"
-                        name="stock"
-                        value={product.stock}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Description</label>
+                    <label htmlFor="description">Description</label>
                     <textarea
+                        id="description"
                         name="description"
                         value={product.description}
                         onChange={handleChange}
+                        placeholder="Short catalog description..."
                         required
-                        style={{ width: '100%', height: '100px', borderRadius: '6px', padding: '10px', border: '1px solid #ddd' }}
                     ></textarea>
                 </div>
-                <button type="submit">{currentProduct ? 'Update Inventory' : 'Add to Inventory'}</button>
-                <button type="button" className="btn-cancel" onClick={onSave}>Cancel</button>
+                <div className="form-actions">
+                    <button type="submit" className="btn-primary">{currentProduct ? 'Update Inventory' : 'Add to Inventory'}</button>
+                    <button type="button" className="btn-cancel" onClick={onSave}>Cancel</button>
+                </div>
             </form>
-        </div>
+        </section>
     );
 };
 

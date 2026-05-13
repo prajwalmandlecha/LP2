@@ -1,15 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 
-const EventForm = ({ currentEvent, onSave }) => {
-    const [event, setEvent] = useState({ name: '', organizer: '', date: '', location: '', description: '' });
-    const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000/api/events';
+const emptyEvent = { name: '', organizer: '', date: '', location: '', description: '' };
 
-    useEffect(() => {
-        if (currentEvent) {
-            setEvent(currentEvent);
-        }
-    }, [currentEvent]);
+const EventForm = ({ currentEvent, onSave }) => {
+    const [event, setEvent] = useState(currentEvent || emptyEvent);
+    const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000/api/events';
 
     const handleChange = (e) => {
         setEvent({ ...event, [e.target.name]: e.target.value });
@@ -31,63 +27,79 @@ const EventForm = ({ currentEvent, onSave }) => {
     };
 
     return (
-        <div className="event-form">
-            <h2>{currentEvent ? 'Edit Event' : 'Register New Event'}</h2>
+        <section className="form-view">
+            <div className="page-heading">
+                <p className="eyebrow">{currentEvent ? 'Event update' : 'New program'}</p>
+                <h2>{currentEvent ? 'Edit Event' : 'Register Event'}</h2>
+                <p className="section-copy">Capture the essential details before the event enters the schedule.</p>
+            </div>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label>Event Name</label>
+                    <label htmlFor="name">Event Name</label>
                     <input
+                        id="name"
                         type="text"
                         name="name"
                         value={event.name}
                         onChange={handleChange}
+                        placeholder="Developer meetup"
                         required
                     />
                 </div>
                 <div className="form-group">
-                    <label>Organizer</label>
+                    <label htmlFor="organizer">Organizer</label>
                     <input
+                        id="organizer"
                         type="text"
                         name="organizer"
                         value={event.organizer}
                         onChange={handleChange}
+                        placeholder="Computer department"
                         required
                     />
                 </div>
-                <div className="form-group">
-                    <label>Event Date</label>
-                    <input
-                        type="date"
-                        name="date"
-                        value={event.date}
-                        onChange={handleChange}
-                        required
-                    />
+                <div className="form-row">
+                    <div className="form-group">
+                        <label htmlFor="date">Event Date</label>
+                        <input
+                            id="date"
+                            type="date"
+                            name="date"
+                            value={event.date}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="location">Location</label>
+                        <input
+                            id="location"
+                            type="text"
+                            name="location"
+                            value={event.location}
+                            onChange={handleChange}
+                            placeholder="Auditorium"
+                            required
+                        />
+                    </div>
                 </div>
                 <div className="form-group">
-                    <label>Location</label>
-                    <input
-                        type="text"
-                        name="location"
-                        value={event.location}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Description</label>
+                    <label htmlFor="description">Description</label>
                     <textarea
+                        id="description"
                         name="description"
                         value={event.description}
                         onChange={handleChange}
+                        placeholder="Brief event summary..."
                         required
-                        style={{ width: '100%', height: '100px', borderRadius: '6px', padding: '10px', border: '1px solid #ddd' }}
                     ></textarea>
                 </div>
-                <button type="submit">{currentEvent ? 'Update Event' : 'Register Event'}</button>
-                <button type="button" className="btn-cancel" onClick={onSave}>Cancel</button>
+                <div className="form-actions">
+                    <button type="submit" className="btn-primary">{currentEvent ? 'Update Event' : 'Register Event'}</button>
+                    <button type="button" className="btn-cancel" onClick={onSave}>Cancel</button>
+                </div>
             </form>
-        </div>
+        </section>
     );
 };
 

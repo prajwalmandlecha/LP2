@@ -1,12 +1,20 @@
-import React from 'react';
-
-const Navbar = ({ setView }) => {
+const Navbar = ({ activeView, setView }) => {
     return (
         <nav className="navbar">
-            <h1>Event Registration</h1>
+            <button className="brand" onClick={() => setView('list')} aria-label="Show events">
+                <span className="brand-mark">E</span>
+                <span>
+                    <span className="brand-title">EventDesk</span>
+                    <span className="brand-subtitle">Program registry</span>
+                </span>
+            </button>
             <div className="nav-links">
-                <button onClick={() => setView('list')}>View Events</button>
-                <button onClick={() => setView('add')}>Register Event</button>
+                <button className={activeView === 'list' ? 'active' : ''} onClick={() => setView('list')}>
+                    Events
+                </button>
+                <button className={activeView === 'add' ? 'active' : ''} onClick={() => setView('add')}>
+                    Register
+                </button>
             </div>
         </nav>
     );

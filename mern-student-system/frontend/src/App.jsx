@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Navbar from './components/Navbar';
 import StudentList from './components/StudentList';
 import StudentForm from './components/StudentForm';
@@ -20,7 +20,10 @@ function App() {
 
     return (
         <div className="App">
-            <Navbar setView={(v) => { setView(v); setCurrentStudent(null); }} />
+            <Navbar
+                activeView={view}
+                setView={(v) => { setView(v); setCurrentStudent(null); }}
+            />
             <main className="container">
                 {view === 'list' ? (
                     <StudentList onEdit={handleEdit} />

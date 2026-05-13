@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Navbar from './components/Navbar';
 import ProductList from './components/ProductList';
 import ProductForm from './components/ProductForm';
@@ -20,7 +20,10 @@ function App() {
 
     return (
         <div className="App">
-            <Navbar setView={(v) => { setView(v); setCurrentProduct(null); }} />
+            <Navbar
+                activeView={view}
+                setView={(v) => { setView(v); setCurrentProduct(null); }}
+            />
             <main className="container">
                 {view === 'list' ? (
                     <ProductList onEdit={handleEdit} />

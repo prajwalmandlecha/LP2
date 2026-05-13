@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Navbar from './components/Navbar';
 import BlogList from './components/BlogList';
 import BlogForm from './components/BlogForm';
@@ -20,7 +20,10 @@ function App() {
 
     return (
         <div className="App">
-            <Navbar setView={(v) => { setView(v); setCurrentBlog(null); }} />
+            <Navbar
+                activeView={view}
+                setView={(v) => { setView(v); setCurrentBlog(null); }}
+            />
             <main className="container">
                 {view === 'list' ? (
                     <BlogList onEdit={handleEdit} />
