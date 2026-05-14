@@ -1,0 +1,66 @@
+<html>
+    <head>
+        <title>AI Courses</title>
+        <style>
+            body { max-width: 800px; margin: 20px auto; padding: 20px; font-family: Arial; }
+            input { padding: 8px; margin: 5px; }
+            #chatbox { border: 1px solid black; padding: 10px; }
+        </style>
+        <script>
+            const botdata = {
+                "hello" : "Hello, Welcome to AI course academy!",
+                "courses": "We have a variety of courses including Machine Learning, Deep Learning, NLP, Computer Vision, and Reinforcement Learning.",
+                "features": "All courses include hands-on projects, real-world examples, and expert instruction to help you master AI concepts.",
+                "machine learning": "Our Machine Learning course covers supervised and unsupervised learning, regression, classification, and clustering algorithms.",
+                "deep learning": "Our Deep Learning course focuses on neural networks, convolutional networks, recurrent networks, and their applications.",
+                "nlp": "Our NLP course covers text preprocessing, sentiment analysis, named entity recognition, and machine translation.",
+                "computer vision": "Our Computer Vision course teaches image processing, object detection, and image classification techniques.",
+                "reinforcement learning": "Our Reinforcement Learning course explores agent-based learning, Markov decision processes, and policy gradient methods.",
+                "default": "Sorry, I didn't understand that. Please ask about our courses or features."
+            }
+
+            document.addEventListener("DOMContentLoaded", () => {
+                const submitButton = document.getElementById("submit");
+                const opdiv = document.getElementById("chatbox");
+                submitButton.addEventListener('click',() => {
+                    const userInput = document.getElementById("question").value.trim();
+                    if(!userInput) return;
+                    const newmsg = document.createElement('p')
+                    newmsg.className = `user-msg`;
+                    newmsg.innerHTML = userInput;
+                    opdiv.appendChild(newmsg);
+                    let ans = botdata[userInput] || botdata["default"];
+                    const ansmsg = document.createElement('p');
+                    ansmsg.className = 'bot-msg';
+                    ansmsg.innerHTML = ans;
+                    opdiv.appendChild(ansmsg);
+                    document.getElementById("question").value = ""
+                })
+            })
+        </script>
+
+    </head>
+    <body style="align-items: center;">
+        <h1>AI Courses</h1>
+        <p>Explore our comprehensive AI courses designed to enhance your skills in artificial intelligence and machine learning.</p>
+        
+        <h2>Available Courses</h2>
+        <ul>
+            <li><strong>Introduction to Machine Learning</strong> - Learn the fundamentals of ML algorithms and applications</li>
+            <li><strong>Deep Learning Basics</strong> - Understand neural networks and their implementations</li>
+            <li><strong>Natural Language Processing</strong> - Master NLP techniques for text analysis</li>
+            <li><strong>Computer Vision</strong> - Build applications using image recognition and processing</li>
+            <li><strong>Reinforcement Learning</strong> - Learn agent-based learning and decision making</li>
+        </ul>
+        
+        <h2>Course Features</h2>
+        <p>All courses include hands-on projects, real-world examples, and expert instruction to help you master AI concepts.</p>
+        <div>
+            <div id="chatbox" style="width: 500px; height: 500px; border: 1px solid black;">
+                
+            </div>
+            <input type="text" id="question" style="width: 400px;"/>
+            <input type="submit" id="submit" />
+            </div>
+    </body>
+</html>
