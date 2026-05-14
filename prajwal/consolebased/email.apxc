@@ -1,0 +1,37 @@
+public class SendMailConsole {
+    public static void sendEmail(String toAddress, String subject, String body) {
+        Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+
+        mail.setToAddresses(new String[] { toAddress });
+        mail.setSubject(subject);
+        mail.setPlainTextBody(body);
+
+        Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
+
+        System.debug('Email sent successfully to: ' + toAddress);
+    }
+
+    public static void sendEmailWithAttachment(
+        String toAddress,
+        String subject,
+        String body,
+        String fileName,
+        Blob fileBody
+    ) {
+        Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+
+        mail.setToAddresses(new String[] { toAddress });
+        mail.setSubject(subject);
+        mail.setPlainTextBody(body);
+
+        Messaging.EmailFileAttachment attachment = new Messaging.EmailFileAttachment();
+        attachment.setFileName(fileName);
+        attachment.setBody(fileBody);
+
+        mail.setFileAttachments(new Messaging.EmailFileAttachment[] { attachment });
+
+        Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
+
+        System.debug('Email with attachment sent successfully to: ' + toAddress);
+    }
+}

@@ -1,0 +1,32 @@
+public class StudentRecordManagement {
+    public Student_Record__c student {get; set;}
+    public List<Student_Record__c> students {get; set;}
+    
+    public StudentRecordManagement() {
+        student = new Student_Record__c();
+		loadStudents();
+    }
+    
+    public void loadStudents() {
+        students = [SELECT Id,Name,phone_number__c,roll_number__c,class__c from Student_Record__c ORDER BY Name];
+    }
+	
+    public void saveStudent() {
+        upsert student;
+        student = new Student_Record__c();
+        loadStudents();
+    }
+    
+    public void editStudent(){
+        student = [Select Id, Name, phone_number__c,roll_number__c,class__c from Student_Record__c WHERE Id = :student.Id];
+    }
+    
+    public void deleteStudent(){
+        try{delete new Student_Record__c(Id = student.id);
+        student = new Student_Record__c();
+            loadStudents();}catch(Exception e){
+                System.debug(e);
+            }
+    }
+    
+}

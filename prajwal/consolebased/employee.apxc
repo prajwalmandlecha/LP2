@@ -1,0 +1,51 @@
+public class EmployeeManagement {
+    public static void menu(Integer choice, String empIdInput, String name, String email, Date birthDate, String department){
+        
+        System.debug('--- EMPLOYEE MANAGEMENT MENU ---');
+        System.debug('1. Add Employee');
+        System.debug('2. View All Employees');
+        System.debug('3. Update Employee (by Emp ID)');
+        System.debug('4. Delete Employee (by Emp ID)');
+        System.debug('--------------------------------');
+        
+        if(choice == 1){
+            Employee__c emp = new Employee__c();
+            emp.empid__c = empIdInput; 
+            emp.Name = name;
+            emp.Email__c = email;
+            emp.birthdate__c = birthDate;
+            emp.Department__c = department;
+            insert emp;
+            System.debug('Added Employee: ' + name);
+        }
+        
+        else if(choice == 2){
+            List<Employee__c> employees = [SELECT empid__c, Name, Email__c, birthdate__c, Department__c FROM Employee__c ORDER BY Name];
+            System.debug('Employees: ');
+            for (Employee__c e: employees){
+                System.debug(e.empid__c + ' | ' + e.Name + ' | ' + e.Email__c + ' | ' + e.birthdate__c + ' | ' + e.Department__c);
+            }
+        }
+        
+        else if(choice == 3){
+            List<Employee__c> employees = [SELECT Id, empid__c, Name, Email__c, birthdate__c, Department__c FROM Employee__c WHERE empid__c = :empIdInput LIMIT 1];
+            if(!employees.isEmpty()){
+                Employee__c emp = employees[0];
+                if (name != null) emp.Name = name;
+                if (email != null) emp.Email__c = email;
+                if (birthDate != null) emp.birthdate__c = birthDate;
+                if (department != null) emp.Department__c = department;
+                update emp;
+                System.debug('Updated Employee ID: ' + empIdInput);
+            }
+        }
+        
+        else if(choice == 4){
+            List<Employee__c> employees = [SELECT Id FROM Employee__c WHERE empid__c = :empIdInput LIMIT 1];
+            if(!employees.isEmpty()){
+                delete employees[0];
+                System.debug('Deleted Employee ID: ' + empIdInput);
+            }
+        }
+    }
+}

@@ -1,0 +1,31 @@
+<apex:page controller="StudentRecordManagement">
+	<apex:form >
+    	<apex:pageBlock title="Student Record Form">
+            <apex:pageBlockSection columns="2" id="inputfields">
+            	<apex:inputText value="{!student.Name}" />
+                <apex:inputText value="{!student.roll_number__c}" />
+                <apex:inputText value="{!student.class__c}" />
+                <apex:inputText value="{!student.phone_number__c}"  />
+                <apex:commandButton action="{!saveStudent}" value="Save"/>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+        
+        <apex:pageBlock title="All Students">
+        	<apex:pageBlockTable value="{!students}" var="s" id="studentTable">
+                <apex:column value="{!s.Name}" title="Name" />
+                <apex:column value="{!s.roll_number__c}" title="Roll Number"/>
+                <apex:column value="{!s.class__c}" title="Class"/>
+                <apex:column value="{!s.phone_number__c}" title="Phone Number"/>
+                <apex:column title="Actions" >
+                    <apex:commandButton action="{!editStudent}" value="Update" rerender="inputfields">
+                        <apex:param name="StudentId" value="{!s.Id}" assignTo="{!student.Id}"/>
+                    </apex:commandButton>
+                    <apex:commandButton action="{!deleteStudent}" value="Delete" 
+                                        rerender="studentTable">
+                        <apex:param name="StudentId" value="{!s.Id}" assignTo="{!student.Id}"/>
+                    </apex:commandButton>
+                </apex:column>
+            </apex:pageBlockTable>
+        </apex:pageBlock>
+    </apex:form>    
+</apex:page>

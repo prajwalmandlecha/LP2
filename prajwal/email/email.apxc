@@ -1,0 +1,61 @@
+public class sendmail {
+	public String toAddress {get; set;}
+    public String subject {get; set;}
+    public String body {get; set;}
+	
+    public Blob filebody {get; set;}
+    public String filename {get; set;}
+    
+    public void sendEmail(){
+        System.debug('Entered sendEmail method');
+        System.debug('To Address: ' + toAddress);
+        System.debug('Subject: ' + subject);
+
+        if(String.isEmpty(toAddress) || !toAddress.endsWith('@gmail.com')){
+            System.debug('Invalid Email: Not a Gmail address');
+            
+            ApexPages.addMessage(new ApexPages.Message(
+            	ApexPages.severity.ERROR,
+                'Enter valid gmail addr'
+            ));
+            return;             
+        }
+        
+        if(String.isEmpty(subject)){
+            System.debug('Invalid Email: Subject missing');
+            ApexPages.addMessage(new ApexPages.Message(
+            ApexPages.severity.ERROR,
+            	'Enter valid subject'
+            ));
+            return;
+        }
+        
+        System.debug('Validations passed');
+
+        Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+        
+        mail.setToAddresses(new String[] {toAddress});
+        mail.setSubject(subject);
+        mail.setPlainTextBody(body);
+        
+        if(fileBody != null && fileName != null){
+            System.debug('Adding attachment: ' + fileName);    
+            Messaging.EmailFileAttachment attachment = new Messaging.EmailFileAttachment();
+            attachment.setFileName(filename);
+            attachment.setBody(filebody);
+        	
+            mail.setFileAttachments(new Messaging.EmailFileAttachment[] {attachment});
+        }
+        
+        System.debug('Sending email...');
+        
+        Messaging.sendEmail(new Messaging.SingleEmailMessage[] {mail});
+        
+		System.debug('Email sent successfully');
+
+        ApexPages.addMessage(new ApexPages.Message(
+            ApexPages.Severity.CONFIRM,
+            'Email Sent Successfully!'
+        ));        
+    }
+}
